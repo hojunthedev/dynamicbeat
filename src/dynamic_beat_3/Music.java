@@ -21,6 +21,7 @@ public class Music extends Thread {
 			fis = new FileInputStream(file);
 			bis = new BufferedInputStream(fis);
 			player = new Player(bis);
+			System.out.println(file);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

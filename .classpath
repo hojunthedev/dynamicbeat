@@ -6,10 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/kimhojun/Downloads/JLayer1.0.1/jl1.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="/Users/kimhojun/Downloads/JLayer1.0.1/jl1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
