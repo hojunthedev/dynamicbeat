@@ -20,6 +20,7 @@ public class DynamicBeat extends JFrame {
 	private Graphics screenGraphic;
 
 	private Image selectedImage = new ImageIcon(Main.class.getResource("../images/Mighty Love Start Image.png")).getImage();
+	private Image titleImage = new ImageIcon(Main.class.getResource("../images/Mighty Love Title Image.png")).getImage();
 	
 	// 백그라운드 이미지를 담는 인스턴스
 	// 메인클래스의 위치를 기반으 인트로파일을 얻어온뒤 이미지 인스턴스를 초기화 해주겠다
@@ -28,7 +29,7 @@ public class DynamicBeat extends JFrame {
 
 	private int mouseX, mouseY;
 
-	private boolean inMainScreen = false;
+	private boolean isMainScreen = false;
 	
 	private ImageIcon exitButtonEnteredImage = new ImageIcon(Main.class.getResource("../images/exitButtonEntered.png"));
 	private ImageIcon exitButtonBasicImage = new ImageIcon(Main.class.getResource("../images/exitButtonBasic.png"));
@@ -37,10 +38,17 @@ public class DynamicBeat extends JFrame {
 	private ImageIcon startButtonBasicImage = new ImageIcon(Main.class.getResource("../images/startButtonBasic.png"));
 	private ImageIcon quitButtonEnteredImage = new ImageIcon(Main.class.getResource("../images/quitButtonEntered.png"));
 	private ImageIcon quitButtonBasicImage = new ImageIcon(Main.class.getResource("../images/quitButtonBasic.png"));
-
+	
+	private ImageIcon leftButtonEnteredImage = new ImageIcon(Main.class.getResource("../images/leftButtonEntered.png"));
+	private ImageIcon leftButtonBasicImage = new ImageIcon(Main.class.getResource("../images/leftButtonBasic.png"));
+	private ImageIcon rightButtonEnteredImage = new ImageIcon(Main.class.getResource("../images/rightButtonEntered.png"));
+	private ImageIcon rightButtonBasicImage = new ImageIcon(Main.class.getResource("../images/rightButtonBasic.png"));
+	
 	private JButton exitButton = new JButton(exitButtonBasicImage);
 	private JButton startButton = new JButton(startButtonBasicImage);
 	private JButton quitButton = new JButton(quitButtonBasicImage);
+	private JButton leftButton = new JButton(leftButtonBasicImage);
+	private JButton rightButton = new JButton(rightButtonBasicImage);
 
 	public DynamicBeat() {
 		setUndecorated(true);// 기본적으로 존재하는 메뉴바가 존재하지않게됨
@@ -114,8 +122,10 @@ public class DynamicBeat extends JFrame {
 				buttonpressedMusic.start();
 				startButton.setVisible(false);
 				quitButton.setVisible(false);
+				leftButton.setVisible(true);
+				rightButton.setVisible(true);
 				background = new ImageIcon(Main.class.getResource("../images/mainBackground.jpg")).getImage();
-				inMainScreen = true;
+				isMainScreen = true;
 			}
 		});
 		add(startButton);
@@ -154,6 +164,66 @@ public class DynamicBeat extends JFrame {
 		});
 		add(quitButton);
 
+		leftButton.setVisible(false);
+		leftButton.setBounds(140, 310, 60, 60);
+		leftButton.setBorderPainted(false);
+		leftButton.setContentAreaFilled(false);
+		leftButton.setFocusPainted(false);
+		// 마우스 인엔아웃 이벤트(이미지 바꿔주기), 클릭이벤트
+		leftButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				leftButton.setIcon(leftButtonEnteredImage);
+				leftButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false); // 한번만 실행되도록
+				buttonEnteredMusic.start();
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				leftButton.setIcon(leftButtonBasicImage);
+				leftButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Music buttonpressedMusic = new Music("buttonpressedMusic.mp3", false); // 한번만 실행되도록
+				buttonpressedMusic.start();
+				//TODO : 왼쪽버튼 이벤트
+			}
+		});
+		add(leftButton);
+		
+		rightButton.setVisible(false);
+		rightButton.setBounds(1080, 310, 60, 60);
+		rightButton.setBorderPainted(false);
+		rightButton.setContentAreaFilled(false);
+		rightButton.setFocusPainted(false);
+		// 마우스 인엔아웃 이벤트(이미지 바꿔주기), 클릭이벤트
+		rightButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				rightButton.setIcon(rightButtonEnteredImage);
+				rightButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false); // 한번만 실행되도록
+				buttonEnteredMusic.start();
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				rightButton.setIcon(rightButtonBasicImage);
+				rightButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Music buttonpressedMusic = new Music("buttonpressedMusic.mp3", false); // 한번만 실행되도록
+				buttonpressedMusic.start();
+				//TODO : 오른쪽버튼 이벤트
+			}
+		});
+		add(rightButton);
+		
 		menuBar.setBounds(0, 0, 1280, 30);// 위치와 크기를 정함
 		// 마우스 좌표 습득
 		menuBar.addMouseListener(new MouseAdapter() {
@@ -186,12 +256,13 @@ public class DynamicBeat extends JFrame {
 	}
 
 	public void screenDraw(Graphics g) {
-		g.drawImage(background, 0, 0, null);
-		if(inMainScreen)
+		g.drawImage(background, 0, 0, null); //그저 이미지를 화면에 출력할 뿐
+		if(isMainScreen)
 		{
 			g.drawImage(selectedImage, 340, 100, null);
+			g.drawImage(titleImage, 340, 70, null);
 		}
-		paintComponents(g); // 메뉴바는 고정적(항상 고정)이기 때문에 paintComponents를 이용, 다른건 drawImage
+		paintComponents(g); // 메뉴바는 고정적(항상 고정)이기 때문에 paintComponents를 이용, 다른건 drawImage/프레임에 이미지 추가개념
 		this.repaint();
 	}
 }
